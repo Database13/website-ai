@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Taufik AI • Asisten Cerdas</title>
+    <!-- Google Fonts & Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #f6f9fc 0%, #eef2f8 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        /* Main card container */
+        .glass-card {
+            max-width: 1000px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(2px);
+            border-radius: 2.5rem;
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.12), 0 8px 24px -8px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            overflow: hidden;
+        }
+
+        /* header area */
+        .header {
+            padding: 1.8rem 2rem 1rem 2rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .title-section {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .title-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .title-badge i {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #1e3c72, #2b4c7c);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        h1 {
+            font-size: 1.7rem;
+            font-weight: 700;
+            background: linear-gradient(120deg, #1E2F5E, #2A4D7C);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+
+        .model-chip {
+            background: #eef2ff;
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #1e4a76;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(2px);
+            border: 1px solid #ffffff70;
+        }
+
+        .model-chip i {
+            font-size: 0.8rem;
+        }
+
+        .sub {
+            margin-top: 0.6rem;
+            color: #4a627a;
+            font-size: 0.85rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        /* main content */
+        .content {
+            padding: 2rem;
+        }
+
+        /* input group */
+        .input-group {
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.02), 0 0 0 1px #e9edf2;
+            transition: all 0.2s;
+        }
+
+        .input-group:focus-within {
+            box-shadow: 0 8px 20px rgba(0, 80, 120, 0.08), 0 0 0 2px #3b82f680;
+        }
+
+        textarea {
+            width: 100%;
+            border: none;
+            padding: 1.2rem 1.4rem;
+            font-size: 1rem;
+            font-family: 'Inter', monospace;
+            resize: vertical;
+            background: transparent;
+            border-radius: 1.5rem;
+            outline: none;
+            font-weight: 500;
+            color: #0a2540;
+            line-height: 1.5;
+        }
+
+        textarea::placeholder {
+            color: #9aaebf;
+            font-weight: 400;
+        }
+
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.6rem 1.2rem 1.2rem 1.2rem;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            border-top: 1px solid #f0f3f8;
+        }
+
+        .examples {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .example-btn {
+            background: #f1f5f9;
+            border: none;
+            font-size: 0.75rem;
+            padding: 0.4rem 0.9rem;
+            border-radius: 40px;
+            font-weight: 500;
+            color: #2c5a7a;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .example-btn i {
+            font-size: 0.7rem;
+        }
+
+        .example-btn:hover {
+            background: #e2eaf5;
+            transform: translateY(-1px);
+        }
+
+        .primary-btn {
+            background: linear-gradient(100deg, #1f4870, #1e3a5f);
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .primary-btn i {
+            font-size: 0.9rem;
+        }
+
+        .primary-btn:hover:not(:disabled) {
+            background: linear-gradient(100deg, #0f3b5c, #143250);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(28, 78, 118, 0.2);
+        }
+
+        .primary-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* response area */
+        .response-section {
+            margin-top: 2rem;
+        }
+
+        .response-header {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .response-header h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .copy-btn, .clear-response {
+            background: none;
+            border: none;
+            color: #5b7a9a;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 0.3rem 0.8rem;
+            border-radius: 30px;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .copy-btn:hover, .clear-response:hover {
+            background: #eef2fa;
+            color: #1f4870;
+        }
+
+        .response-card {
+            background: #ffffffdd;
+            backdrop-filter: blur(4px);
+            border-radius: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.02);
+            padding: 1.5rem;
+            min-height: 180px;
+            transition: all 0.2s;
+        }
+
+        .ai-message {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #1a2f3f;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .loading-spinner {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #3a6b92;
+            font-weight: 500;
+        }
+
+        .loading-spinner i {
+            font-size: 1.2rem;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            background: #fff0f0;
+            border-left: 4px solid #e55a5a;
+            padding: 1rem;
+            border-radius: 1rem;
+            color: #b13e3e;
+            font-size: 0.85rem;
+        }
+
+        .footer-note {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: 0.7rem;
+            color: #7c93aa;
+            border-top: 1px solid rgba(0,0,0,0.03);
+            padding-top: 1rem;
+        }
+
+        @media (max-width: 640px) {
+            body { padding: 1rem; }
+            .content { padding: 1.5rem; }
+            .header { padding: 1.2rem 1.5rem; }
+            h1 { font-size: 1.4rem; }
+            .action-bar { flex-direction: column; align-items: stretch; }
+            .examples { justify-content: center; }
+            .primary-btn { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+<div class="glass-card">
+    <div class="header">
+        <div class="title-section">
+            <div class="title-badge">
+                <i class="fas fa-brain"></i>
+                <h1>Taufik AI</h1>
+            </div>
+            <div class="model-chip">
+                <i class="fas fa-microchip"></i> taufik developer
+                <i class="fas fa-bolt" style="font-size: 0.7rem;"></i>
+            </div>
+        </div>
+        <div class="sub">
+            <span><i class="fas fa-comment-dots"></i> Asisten pintar • respons cepat</span>
+            <span><i class="fas fa-shield-alt"></i> Gratis & langsung</span>
+        </div>
+    </div>
+
+    <div class="content">
+        <!-- input area -->
+        <div class="input-group">
+            <textarea id="promptInput" rows="3" placeholder="Tanyakan apa saja... misalnya: "Jelaskan teori relativitas dengan analogi sederhana" atau "Buatkan puisi tentang teknologi""></textarea>
+            <div class="action-bar">
+                <div class="examples">
+                    <button class="example-btn" data-example="Jelaskan perbedaan AI, Machine Learning, dan Deep Learning dengan analogi."><i class="fas fa-lightbulb"></i> AI vs ML</button>
+                    <button class="example-btn" data-example="Buatkan kode HTML sederhana untuk kartu profil modern."><i class="fas fa-code"></i> Contoh kode</button>
+                    <button class="example-btn" data-example="Tips belajar pemrograman untuk pemula yang konsisten."><i class="fas fa-graduation-cap"></i> Tips belajar</button>
+                </div>
+                <button id="sendBtn" class="primary-btn"><i class="fas fa-paper-plane"></i> Kirim pesan</button>
+            </div>
+        </div>
+
+        <!-- response area -->
+        <div class="response-section">
+            <div class="response-header">
+                <h3><i class="fas fa-robot"></i> Jawaban AI</h3>
+                <div style="display: flex; gap: 4px;">
+                    <button id="clearResponseBtn" class="clear-response"><i class="fas fa-trash-alt"></i> Bersihkan</button>
+                    <button id="copyResponseBtn" class="copy-btn"><i class="far fa-copy"></i> Salin</button>
+                </div>
+            </div>
+            <div id="responseContainer" class="response-card">
+                <div class="ai-message" id="aiResponseText">
+                    <i class="fas fa-comment"></i> Kirim pertanyaan untuk memulai percakapan dengan Gemini Lite.
+                </div>
+            </div>
+        </div>
+        <div class="footer-note">
+            <i class="fas fa-database"></i> Model: gemini-2.0-flash-lite • endpoint by taufik developer
+        </div>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // DOM elements
+        const promptTextarea = document.getElementById('promptInput');
+        const sendButton = document.getElementById('sendBtn');
+        const responseDiv = document.getElementById('aiResponseText');
+        const responseContainer = document.getElementById('responseContainer');
+        const copyBtn = document.getElementById('copyResponseBtn');
+        const clearResponseBtn = document.getElementById('clearResponseBtn');
+        const exampleBtns = document.querySelectorAll('.example-btn');
+
+        // API configuration
+        const API_BASE = 'https://api.siputzx.my.id/api/ai/gemini-lite';
+        const MODEL_NAME = 'gemini-2.0-flash-lite';
+
+        // state
+        let isFetching = false;
+        let currentAbortController = null;
+
+        // Helper: show loading state
+        function setLoading(isLoading) {
+            if (isLoading) {
+                sendButton.disabled = true;
+                responseDiv.innerHTML = `
+                    <div class="loading-spinner">
+                        <i class="fas fa-circle-notch"></i> Menghubungi Gemini Lite, mohon tunggu...
+                    </div>
+                `;
+                responseContainer.style.background = "#fafcff";
+            } else {
+                sendButton.disabled = false;
+            }
+        }
+
+        // Helper: display error message
+        function showError(message) {
+            responseDiv.innerHTML = `
+                <div class="error-message">
+                    <i class="fas fa-exclamation-triangle" style="margin-right: 8px;"></i> 
+                    <strong>Gagal mendapatkan respons:</strong> ${escapeHtml(message)}
+                    <div style="margin-top: 8px; font-size: 0.8rem;">💡 Coba periksa koneksi atau refresh halaman, pastikan API dapat diakses.</div>
+                </div>
+            `;
+            responseContainer.style.background = "#fff9f5";
+        }
+
+        // simple escape for safety
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+                return c;
+            });
+        }
+
+        // display AI response (text only, with formatting support)
+        function displayResponse(text) {
+            if (!text || text.trim() === '') {
+                responseDiv.innerHTML = `<i class="fas fa-comment-slash"></i> (Tidak ada konten teks dari AI)`;
+                return;
+            }
+            // preserve line breaks, support basic markdown vibe, but safe
+            const formatted = escapeHtml(text).replace(/\n/g, '<br>');
+            responseDiv.innerHTML = `<div style="line-height: 1.6;">${formatted}</div>`;
+        }
+
+        // core API call
+        async function sendPromptToAPI(prompt) {
+            if (!prompt || prompt.trim() === '') {
+                alert('❓ Masukkan pertanyaan atau perintah terlebih dahulu.');
+                return false;
+            }
+
+            // trim prompt
+            const cleanPrompt = prompt.trim();
+
+            // cancel any ongoing request
+            if (currentAbortController) {
+                currentAbortController.abort();
+            }
+            currentAbortController = new AbortController();
+            const signal = currentAbortController.signal;
+
+            setLoading(true);
+            // show that we're thinking
+            responseDiv.innerHTML = `<div class="loading-spinner"><i class="fas fa-circle-notch"></i> Sedang memproses: "${escapeHtml(cleanPrompt.length > 60 ? cleanPrompt.substring(0,60)+'…' : cleanPrompt)}"</div>`;
+            
+            // build URL with proper encoding
+            const url = `${API_BASE}?prompt=${encodeURIComponent(cleanPrompt)}&model=${encodeURIComponent(MODEL_NAME)}`;
+            
+            try {
+                // set timeout 45 detik
+                const timeoutId = setTimeout(() => {
+                    if (currentAbortController) currentAbortController.abort();
+                }, 45000);
+                
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                    },
+                    signal: signal,
+                });
+                
+                clearTimeout(timeoutId);
+                
+                if (!response.ok) {
+                    let errorDetail = `HTTP ${response.status}`;
+                    try {
+                        const errJson = await response.json();
+                        errorDetail = errJson?.message || errJson?.error || errorDetail;
+                    } catch(e) { /* ignore */ }
+                    throw new Error(`Server merespons: ${errorDetail}`);
+                }
+                
+                const result = await response.json();
+                
+                // validate response structure
+                if (result && result.status === true && result.data && result.data.parts && Array.isArray(result.data.parts) && result.data.parts.length > 0) {
+                    const aiText = result.data.parts[0].text;
+                    if (aiText !== undefined && aiText !== null) {
+                        displayResponse(aiText);
+                        return true;
+                    } else {
+                        throw new Error('Struktur respons tidak memiliki teks (parts.text kosong)');
+                    }
+                } 
+                else if (result && result.status === false) {
+                    throw new Error(result.message || 'API mengembalikan status false');
+                }
+                else {
+                    // fallback jika format tidak dikenali
+                    console.warn('Unexpected API structure', result);
+                    if (result?.data?.text) {
+                        displayResponse(result.data.text);
+                        return true;
+                    } else if (result?.response) {
+                        displayResponse(result.response);
+                        return true;
+                    }
+                    throw new Error('Format respons tidak dikenali oleh klien');
+                }
+            } catch (error) {
+                if (error.name === 'AbortError') {
+                    showError('Permintaan dibatalkan atau timeout (45 detik). Coba lagi dengan pertanyaan yang lebih pendek.');
+                } else if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+                    showError('Tidak dapat menghubungi server. Periksa koneksi internet atau CORS. API mungkin memerlukan ekstensi CORS jika dijalankan secara lokal.');
+                } else {
+                    showError(error.message || 'Terjadi kesalahan tak terduga.');
+                }
+                return false;
+            } finally {
+                setLoading(false);
+                currentAbortController = null;
+            }
+        }
+
+        // handler send
+        async function handleSend() {
+            if (isFetching) return;
+            const userPrompt = promptTextarea.value;
+            isFetching = true;
+            const success = await sendPromptToAPI(userPrompt);
+            isFetching = false;
+            if (success) {
+                // optional: we don't clear input, but user can reuse
+            }
+        }
+
+        // event listeners
+        sendButton.addEventListener('click', () => {
+            handleSend();
+        });
+
+        // Ctrl+Enter / Cmd+Enter send
+        promptTextarea.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                e.preventDefault();
+                handleSend();
+            }
+        });
+
+        // copy response text
+        copyBtn.addEventListener('click', () => {
+            const responseTextElem = responseDiv.innerText;
+            if (!responseTextElem || responseTextElem.includes('Kirim pertanyaan') || responseTextElem.includes('loading-spinner')) {
+                // cek jika tidak ada konten nyata
+                const rawText = responseDiv.innerText.trim();
+                if (rawText === 'Kirim pertanyaan untuk memulai percakapan dengan Gemini Lite.' || rawText.includes('Menghubungi Gemini')) {
+                    alert('Tidak ada respons yang dapat disalin. Kirim pertanyaan terlebih dahulu.');
+                    return;
+                }
+            }
+            const textToCopy = responseDiv.innerText;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                // feedback visual
+                const originalText = copyBtn.innerHTML;
+                copyBtn.innerHTML = '<i class="fas fa-check"></i> Tersalin!';
+                setTimeout(() => {
+                    copyBtn.innerHTML = originalText;
+                }, 1500);
+            }).catch(() => {
+                alert('Gagal menyalin, silakan salin secara manual.');
+            });
+        });
+
+        // clear response display
+        clearResponseBtn.addEventListener('click', () => {
+            responseDiv.innerHTML = `<i class="fas fa-comment"></i> Respons telah dibersihkan. Kirim pertanyaan baru.`;
+            responseContainer.style.background = "#ffffffdd";
+        });
+
+        // example buttons (fill textarea)
+        exampleBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const exampleText = btn.getAttribute('data-example');
+                if (exampleText) {
+                    promptTextarea.value = exampleText;
+                    promptTextarea.focus();
+                    // optional auto-send? but user can click send. better UX just fill.
+                }
+            });
+        });
+
+        // initial placeholder animation
+        promptTextarea.focus();
+
+        // additional small note: jika ingin mengirim contoh langsung setelah diisi bisa, tapi biarkan user klik kirim.
+        // fitur ekstra: jika url error cors, tampilkan solusi
+        // fungsi test koneksi awal: opsional cek health? tidak perlu karena akan dinamis
+        console.log('UI siap, API endpoint: Gemini Lite');
+    })();
+</script>
+</body>
+</html>
